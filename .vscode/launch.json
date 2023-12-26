@@ -40,6 +40,24 @@
             },
             "args": [],
             "cwd": "${workspaceFolder}"
-        }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug init",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ugit",
+                    "--package=ugit"
+                ],
+                "filter": {
+                    "name": "ugit",
+                    "kind": "bin"
+                }
+            },
+            "args": ["init"],
+            "cwd": "${workspaceFolder}"
+        },
     ]
 }
