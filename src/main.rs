@@ -1,42 +1,51 @@
-use std::env;
-use std::collections::HashMap;
+use clap::{Parser, Subcommand, ValueEnum};
 
 mod data;
 mod utils;
 
-type Callback = fn(String) -> Option<()>;
-struct EventHandler {
-    command: HashMap<String, Callback>
+/// A fictional versioning CLI
+#[derive(Debug, Parser)] // requires `derive` feature
+#[command(name = "git")]
+#[command(about = "A fictional versioning CLI", long_about = None)]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
 }
 
-impl EventHandler {
-    fn add_user_function(&mut self, name: String, func: Callback) {
-        self.command.insert(name, func);
-    }
+#[derive(Debug, Subcommand)]
+enum Commands {
+    Init,
+}
 
-    fn on_script_call(&mut self, name: &str, argv: &[String]) -> Option<()> {
-        let args = argv.iter().map(|ref x| format!("{}", &x)).collect::<Vec<String>>().join(", ");
-        self.command[name](args);
-        None
+#[derive(ValueEnum, Copy, Clone, Debug, PartialEq, Eq)]
+enum ColorWhen {
+    Always,
+    Auto,
+    Never,
+}
+
+impl std::fmt::Display for ColorWhen {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.to_possible_value()
+            .expect("no values are skipped")
+            .get_name()
+            .fmt(f)
     }
 }
 
-fn init(_arg: String) -> Option<()> {
+
+fn init() -> () {
     let _ = data::init();
     let current_dir = utils::get_current_working_dir();
     println!("Initialized empty ugit repository in {}//{}", current_dir, data::GIT_DIR);
-    None
-}
-
-fn parse_args() {
-    let mut handler = EventHandler { command: HashMap::new() };
-    handler.add_user_function("init".to_string(), init);
-    let args: Vec<String> = env::args().collect();
-
-    // println!("{:?}", env::args());
-    handler.on_script_call(&args[1], &args[1..]);
 }
 
 fn main() {
-    parse_args()
+    let args = Cli::parse();
+
+    match args.command {
+        Commands::Init => {
+            init();
+        }
+    }
 }
