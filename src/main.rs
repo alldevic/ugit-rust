@@ -1,6 +1,9 @@
 use std::env;
 use std::collections::HashMap;
 
+mod data;
+mod utils;
+
 type Callback = fn(String) -> Option<()>;
 struct EventHandler {
     command: HashMap<String, Callback>
@@ -19,7 +22,9 @@ impl EventHandler {
 }
 
 fn init(_arg: String) -> Option<()> {
-    println!("Hello world!");
+    let _ = data::init();
+    let current_dir = utils::get_current_working_dir();
+    println!("Initialized empty ugit repository in {}//{}", current_dir, data::GIT_DIR);
     None
 }
 
