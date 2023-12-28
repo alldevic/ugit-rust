@@ -15,6 +15,7 @@ struct Cli {
 #[derive(Debug, Subcommand)]
 enum Commands {
     Init,
+    HashObject { file: String }
 }
 
 #[derive(ValueEnum, Copy, Clone, Debug, PartialEq, Eq)]
@@ -40,12 +41,21 @@ fn init() -> () {
     println!("Initialized empty ugit repository in {}//{}", current_dir, data::GIT_DIR);
 }
 
+fn hash_object(filename: String) -> () {
+    let hash = data::hash_object(filename);
+
+    println!("{}", hash.unwrap());
+}
+
 fn main() {
     let args = Cli::parse();
 
     match args.command {
         Commands::Init => {
             init();
+        }
+        Commands::HashObject { file } => {
+            hash_object(file);
         }
     }
 }

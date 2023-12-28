@@ -56,7 +56,7 @@
                     "kind": "bin"
                 }
             },
-            "args": ["init"],
+            "args": ["hash-object", "Cargo.toml"],
             "cwd": "${workspaceFolder}"
         },
     ]
