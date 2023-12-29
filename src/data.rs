@@ -2,7 +2,6 @@ use sha1::{Digest, Sha1};
 use hex;
 use std::{fs, io};
 use const_format::concatcp;
-// use std::io::prelude::*;
 
 pub const GIT_DIR: &str = ".ugit";
 const OBJECTS_DIR: &str = concatcp!(GIT_DIR, "/objects");
@@ -28,4 +27,13 @@ pub fn hash_object(filename: String) -> std::io::Result<String> {
     let _ = fs::copy(filename, format!("{}/{}", OBJECTS_DIR, hash))?;
     
     return Ok(hash);
+}
+
+pub fn get_object(object: String) -> std::io::Result<String>  {
+    let path = format!("{}/{}", OBJECTS_DIR, object);
+
+    let contents = fs::read_to_string(path)
+        .expect("Should have been able to read the file");
+
+    Ok(contents)
 }

@@ -15,7 +15,8 @@ struct Cli {
 #[derive(Debug, Subcommand)]
 enum Commands {
     Init,
-    HashObject { file: String }
+    HashObject { file: String },
+    CatFile {object: String}
 }
 
 #[derive(ValueEnum, Copy, Clone, Debug, PartialEq, Eq)]
@@ -47,6 +48,12 @@ fn hash_object(filename: String) -> () {
     println!("{}", hash.unwrap());
 }
 
+fn cat_file(object: String) -> () {
+    let file = data::get_object(object);
+
+    println!("{}", file.unwrap());
+}
+
 fn main() {
     let args = Cli::parse();
 
@@ -56,6 +63,9 @@ fn main() {
         }
         Commands::HashObject { file } => {
             hash_object(file);
+        }
+        Commands::CatFile { object } => {
+            cat_file(object);
         }
     }
 }
