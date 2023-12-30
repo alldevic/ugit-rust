@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "lldb",
             "request": "launch",
@@ -56,7 +57,7 @@
                     "kind": "bin"
                 }
             },
-            "args": ["hash-object", "Cargo.toml"],
+            "args": ["cat-file", "a5eb1b69d0bf2553f7fbdc7f63ba3edfac5e4bde"],
             "cwd": "${workspaceFolder}"
         },
     ]

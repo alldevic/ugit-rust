@@ -43,13 +43,13 @@ fn init() -> () {
 }
 
 fn hash_object(filename: String) -> () {
-    let hash = data::hash_object(filename);
+    let hash = data::hash_object(filename, None);
 
     println!("{}", hash.unwrap());
 }
 
 fn cat_file(object: String) -> () {
-    let file = data::get_object(object);
+    let file = data::get_object(object, None);
 
     println!("{}", file.unwrap());
 }
